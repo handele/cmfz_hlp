@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.hlp.dao.AdminDAO">
+
+	<!-- 登陆 -->
+	<select id="login" resultType="Admin">
+		select id,username,password from admin 
+		where username=#{username} and password=#{password}
+	</select>
+	
+	<!-- 管理员修改密码 -->
+	<update id="updateAdmin">
+		update admin set password=#{password} where id=#{id}
+	</update>
+	
+</mapper>

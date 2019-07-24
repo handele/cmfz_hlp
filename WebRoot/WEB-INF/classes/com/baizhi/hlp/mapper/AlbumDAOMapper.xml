@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.hlp.dao.AlbumDAO">
+	
+	<resultMap type="Album" id="resultMapAlbum">
+		<id column="aid" property="id"/>
+		<result column="atitle" property="title"/>
+		<result column="ascore" property="score"/>
+		<result column="aauthor" property="author"/>
+		<result column="aimg_path" property="img_path"/>
+		<result column="abeam" property="beam"/>
+		<result column="acount" property="count"/>
+		<result column="acountent" property="countent"/>
+		<result column="apub_date" property="pub_date"/>
+		<collection property="children" ofType="Chapter">	
+			<id column="bid" property="id"/>
+			<result column="btitle" property="title"/>
+			<result column="bsize" property="size"/>
+			<result column="burl" property="url"/>
+			<result column="bduration" property="duration"/>
+			<result column="bpub_date" property="pub_date"/>
+			<result column="balbum_id" property="album_id"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 分页查询所有 -->	
+	<select id="queryPaging" resultMap="resultMapAlbum">
+		select c.* from (select a.id aid,a.title atitle,a.score ascore,a.author aauthor,
+				a.img_path aimg_path,a.beam abeam,a.count acount,a.content acontent,a.pub_date apub_date,b.id bid,b.title btitle,b.size bsize,b.url burl,b.duration bduration,b.pub_date bpub_date,b.album_id balbum_id from album a left join chapter b on a.id=b.album_id) c
+			limit #{begin},#{end}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from album
+	</select>
+	
+	<!-- 添加专辑 -->
+	<insert id="insertAlbum">
+		insert into album values(#{id},#{title},#{score},#{author},#{img_path},#{beam},#{count},#{countent},#{pub_date})
+	</insert>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.hlp.dao.MenuDAO">
+	
+	<resultMap type="Menu" id="MenuResultMap">
+		<id column="aid" property="id"/>
+		<result column="atitle" property="title"/>
+		<result column="aiconCls" property="iconCls"/>
+		<collection property="menu" ofType="Menu">	
+			<id column="bid" property="id"/>
+			<result column="btitle" property="title"/>
+			<result column="biconCls" property="iconCls"/>
+			<result column="burl" property="url"/>
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 展示手风琴 -->
+	<select id="queryClazz" resultMap="MenuResultMap">
+		select a.id aid,a.title atitle,a.iconCls aiconCls,
+				b.id bid,b.title btitle,b.iconCls biconCls,b.url burl
+		from menu a LEFT JOIN menu b on a.id=b.parent_id where a.parent_id is null
+	</select>
+
+</mapper>
